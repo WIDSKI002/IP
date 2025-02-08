@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blik weryfikacja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #28a745;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Wyslij Blik na mój numer telefonu, aby uzyskać dostęp do strony</h2>
+    <input type="number" id="blikNumber" placeholder="Wpisz kod Blik" />
+    <br>
+    <button onclick="checkBlik()">Przejdź</button>
+</div>
+
+<script>
+    function checkBlik() {
+        const enteredNumber = document.getElementById('blikNumber').value;
+        if (enteredNumber === "1234") {
+            window.location.href = "https://www.przykład.com";  // Zmien na docelowy adres URL
+        } else {
+            alert("Nieprawidłowy kod Blik");
+        }
+    }
+</script>
+
+</body>
+</html>

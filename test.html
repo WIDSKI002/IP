@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test z pytaniami</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .answer {
+            color: #e74c3c;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Test z pytaniami</h1>
+
+<form id="quizForm">
+    <!-- Pytania będą dodane dynamicznie przez JavaScript -->
+</form>
+
+<div class="result" id="result"></div>
+
+<script>
+    const questions = [  {
+        "question": "Czy minimalizacja strat łagodzi skutki?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy zagrożenia projektowe mogą wpłynąć na projekt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy testowanie funkcjonalne jest testowaniem czarnej skrzynki?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podsystem może działać sam?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy funkcje poszczególnych podsystemów mogą ze sobą współdziałać?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy weryfikacja oznacza zgodność projektu z dokumentacją?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy zatwierdzenie oznacza zgodność projektu z oczekiwaniami klienta?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram klas jest diagramem sekwencyjnym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy diagram klas opisuje powiązania między klasami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy adapter upraszcza interfejs klasy implementującej?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy dekorator rozszerza funkcjonalność klasy bazowej?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy program formalny jest oparty na wzorcach?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy program formalny można wszędzie stosować?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy pośrednik wirtualny buforuje dane?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy testowanie wstępujące można prowadzić od początku programowania?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy podczas testowania można wykryć więcej niż jeden defekt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy pośrednik ochraniający sprawdza, czy wywołujący ma pozwolenie na dostęp?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy punkty widzenia dotyczą końcowych użytkowników?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy budowniczy tworzy rodzinę klas?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy prototyp klonuje obiekt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy metoda wytwórcza służy do rozwiązywania jednej z wielu podobnych klas?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy model repozytorium opiera się na centralnej bazie danych?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy model repozytorium opiera się na serwerach?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy iterator iteruje?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },{
+        "question": "Czy wzorzec obserwator weryfikuje obserwatorów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy dekorator i Proxy kontrolują obudowywany obiekt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy strategia minimalizacji przy zarządzaniu zagrożeniami zapobiega wystąpieniu zagrożeń?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy strategia minimalizacji przy zarządzaniu zagrożeniami minimalizuje skutki zagrożeń?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram klas jest diagramem sekwencyjnym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy diagram klas opisuje powiązania między strukturami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy na diagramie aktywności można zamodelować udział użytkowników?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podsystem może działać niezależnie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podsystemy mogą ze sobą współdziałać?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy pojedynczy podsystem może być traktowany jako samodzielny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },{
+        "question": "Czy diagram aktywności zawiera aktorów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy wzorzec obserwator weryfikuje obserwatorów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy dekorator i Proxy kontrolują obudowywany obiekt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy strategia minimalizacji przy zarządzaniu zagrożeniami zapobiega wystąpieniu zagrożeń?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy strategia minimalizacji przy zarządzaniu zagrożeniami minimalizuje skutki zagrożeń?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram klas jest diagramem sekwencyjnym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy diagram klas opisuje powiązania między strukturami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy na diagramie aktywności można zamodelować udział użytkowników?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podsystem może działać niezależnie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podsystemy mogą ze sobą współdziałać?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    }, {
+        "question": "Agregacja całkowita -- czy obiekt jest częścią innego obiektu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Agregacja całkowita -- czy jeden obiekt może istnieć bez drugiego?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Tworzenie ewolucyjne -- tworzenie badawcze?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Tworzenie ewolucyjne -- tworzenie z porzuceniem?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy wzorcem konstrukcyjnym jest -- coś co nim nie było?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy + oznacza -- private?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy + oznacza -- public?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Klasy gruboziarniste stosuje się -- w konserwacji?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy punktem widzenia jest -- coś na temat pomiarów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Include w diagramie przypadków użycia - gdy jeden przypadek jest rozbudowanym innym przypadkiem?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },{
+        "question": "Czy wzorce konstrukcyjne to Abstract Factory oraz Prototyp?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy wzorce strukturalne to Singleton oraz Proxy?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy wzorzec Flyweight (pylek) utylizuje pamięć poprzez stan zewnętrzny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy wzorzec Flyweight zastępuje bardziej złożony obiekt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy łańcuch odpowiedzialności redukuje ilość połączeń między obiektami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy adapter może być zaimplementowany poprzez dziedziczenie po klasie o niezgodnym interfejsie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy adapter umożliwia przedefiniowanie części klasy adaptowanej?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy iterator może swobodnie poruszać się po obiekcie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy wzorzec budowniczy jest wzorcem strukturalnym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy wzorzec fabryki jest wzorcem czynnościowym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },{
+        "question": "Agregacja całkowita – czy obiekt jest częścią innego obiektu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Agregacja całkowita – czy jeden obiekt może istnieć bez drugiego?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Tworzenie ewolucyjne – tworzenie badawcze?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Tworzenie ewolucyjne – tworzenie z porzuconiem?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Singleton – stosowany jest gdy nie wiadomo jakiego typu obiekty będą potrzebne?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Do sterowania scentralizowanego należy – model wywołanie – powrót?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Do sterowania scentralizowanego należy – model sterowania z przerwaniami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "System z komponentami gruboziarnistymi – użyjemy gdy chcemy postawić na szybkość?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "System z komponentami gruboziarnistymi – użyjemy gdy chcemy postawić na efektywność?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Iterator – może przechodzić po kolekcji obiektów i je modyfikować?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Dekorator – czy jest wzorcem czynnościowym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Testowanie – zwykle wykrywa się jeden defekt podczas sesji?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Elementy static w diagramie UML – oznacza się przez podkreślenie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Elementy static w diagramie UML – oznacza się przez pogrubienie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy wzorcem konstrukcyjnym jest – coś co nim nie było?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Fasada – czy ukrywa część systemu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy + oznacza – private?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy + oznacza – public?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Klasy gruboziarniste stosuje się – w konserwacji?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy punktem widzenia jest – coś na temat pomiarów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Include w diagramie przypadków użycia - gdy jeden przypadek jest rozbudowanym innym przypadkiem?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Prototyp – wymaga głębokiego kopiowania podczas budowania obiektów o złożonej strukturze?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },{
+        "question": "Czy prostokąt w diagramie sekwencji oznacza pętle?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy prostokąt w diagramie sekwencji oznacza przepływ alternatywny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy w diagramie klas, klasy reprezentują zależności między nimi?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy w diagramie sekwencji mamy tam klasy?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy przy testowaniu najlepiej jest jak nie mamy defektów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy aktorem może być system zewnętrzny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy w diagramie przypadków użycia jeden scenariusz odpowiada jednemu przypadkowi użycia?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy w diagramie przypadków użycia zamalowana kropka z otoczka oznacza zakończenie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy etnografia może całkowicie określić wszystkie wymagania?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy etnografia może być łączona z prototypowaniem?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy inspekcja oprogramowania określa wydajność?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy generalizacja dotyczy aktorów i klas?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram sekwencji obrazuje strukturę klas?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Testy funkcjonalne czy są to testy czarnej skrzynki?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy testy mają niski koszt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },{
+        "question": "Czy przy testowaniu programów obektowych testowanie jednostkowe ogranicza sie do - czy wykonuje sie testy integralności?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Obserwator - Obserwator czy przechodzi przez obserwatorów i uaktualnia stan?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy metoda zwinna jest programowaniem ekstremalnym i polega na ciaglym testowaniu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram aktywnosci zawiera aktorow?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy wzorzec Stan/Strategia - strategia i stan umożliwiają dokonywanie wybor algorytmu/stanu lub może on być determinowany samoczynnie w klasie kontekstu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy planowanie projektu obejmuje skład i strukturę osób tworzących program?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy planowanie projektu obejmuje koszty projektu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy wzorcami strukturalnymi są kompozyt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy wzorcami strukturalnymi jest prototyp?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy przy testowaniu programów obiektowych testowanie jednostkowe ogranicza się do testowania metod klasy?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy przy testowaniu programów obiektowych testowanie jednostkowe wykonuje się testy integralności?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy diagram przypadków użycia jest strukturalny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy diagram przypadków użycia posiada aktorów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram przypadków użycia umożliwia zamodelowanie funkcjonalności systemu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy model maszyny abstrakcyjnej jest modelem warstwowym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy model maszyny abstrakcyjnej ułatwia przyrostowe tworzenie oprogramowania?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy w łańcuchu zobowiązań (Chain of Responsibility) zagwarantowana jest obsługa zapytania przez co najmniej jeden obiekt?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy w łańcuchu zobowiązań (Chain of Responsibility) występuje wymiana zmodyfikowanych danych pomiędzy obiektami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy potoki nadają się do systemów interaktywnych?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy potoki mogą być stosowane tylko do systemów sekwencyjnych?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy kontrole są metodami statycznymi V&V?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy automatyczna analiza statyczna zawsze wskazuje dokładne miejsce usterki?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy kontrole pozwalają wykryć wiele defektów podczas sesji?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy kontrole całkowicie eliminują konieczność przeprowadzenia testów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy kontrole nie pozwalają określić cech dynamicznych testowanego oprogramowania?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podczas kontroli można znaleźć wiele błędów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy punktem widzenia mogą być odbiorcy usług?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy punktem widzenia może być źródło lub przeznaczenie danych?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy Abstract Factory zwraca obiekty klas strukturalnie podobne?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy Abstract Factory ukrywa tworzone typy klas przed klientem?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy inżynieria programowania zajmuje się wyłącznie etapem od zakończenia tworzenia specyfikacji do oddania programu klientowi?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy inżynieria programowania zajmuje się tylko dostarczeniem programu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy inżynieria programowania oznacza tylko program wykonywalny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy inżynieria programowania definiuje oprogramowanie jako każdą postać zapisu programu komputerowego?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy metoda zwinna jest programowaniem ekstremalnym i polega na ciągłym testowaniu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy model kaskadowy pozwala łatwo i małym nakładem pracy wprowadzić do projektu zmiany?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy model kaskadowy jest oparty na doświadczeniu z innych dziedzin inżynierii?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram klas jest strukturalny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram klas przedstawia zależności między klasami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy projektowanie ogólne tworzy się wstępująco?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy projektowanie ogólne pozwala przedstawić projektantom zarys systemu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy projektowanie ogólne dostarcza informacji o ogólnej architekturze systemu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy sieć działań pozwala wyznaczyć ścieżkę krytyczną?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy sieć działań jest graficznym schematem?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy model interaktywny ma punkt widzenia zewnętrzny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy model interaktywny jest związany ze zrębem programu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy testowanie oprogramowania jest częścią V&V?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy weryfikacja jest sprawdzaniem, czy produkt spełnia specyfikację?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy weryfikacja jest sprawdzaniem, czy produkt jest budowany według ustaleń klienta?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy pośrednik zdalny kolejkuje zadania?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy efektywność osiąga się przez mało gruboziarnistych klas?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy efektywność osiąga się przez dużo drobnoziarnistych klas?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy obserwator przechodzi przez obserwatorów i uaktualnia stan?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy obserwowany dynamicznie dodaje i usuwa obserwatorów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy w systemach interaktywnych najlepiej stosować zewnętrzne punkty widzenia?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy systemy interaktywne stanowią naturalny sposób strukturalizacji procesu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy adapter jest uniwersalny, jeżeli metody klasy bazowej są nieprzesłonięte?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy złożoność cykliczna jest równa liczbie instrukcji warunkowych?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy złożoność cykliczna może być zamodelowana graficznie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy złożoność cykliczna jest równa liczbie warunków prostych w testowanym kodzie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy złożoność cykliczna pozwala określić liczbę niezależnych ścieżek wykonania?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy etnografia wymaga, aby wymagania wynikały z rzeczywistego sposobu pracy osób, a nie z formalnych definicji?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy etnografia uwzględnia wymagania wynikające z kooperacji i świadomości czynności innych osób?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy testowanie wstępujące jest typem testowania integracyjnego?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy testowanie wstępujące umożliwia określenie projektu architektonicznego we wczesnej fazie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy model ogólny jest budowany metodą wstępującą i obejmuje zasadnicze charakterystyki rzeczywistych systemów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy model ogólny dostarcza informacji o ogólnej architekturze systemu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy plan przedsięwzięcia może obejmować skład i strukturę zespołu wytwarzającego oprogramowanie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy plan przedsięwzięcia może obejmować sposób opracowania oferty przetargowej?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy narzędzia automatycznej analizy statycznej przeprowadzają analizę przepływu sterowania w programie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy narzędzia automatycznej analizy statycznej zawsze wskazują miejsce usterki w kodzie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy obserwator wizytuje obserwatorów w celu pobrania aktualnego stanu obiektu obserwowanego?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy obserwator umożliwia obserwowanemu dynamiczne dołączanie i usuwanie obserwatorów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy obserwator weryfikuje obserwatorów?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy dekorator i adapter mają taki sam interfejs jak obiekt tworzony?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy dekorator rozszerza funkcje klasy bazowej?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy wzorzec Stan/Strategia pozwala na przełączanie w zależności od kontekstu?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy strategia minimalizacji przy zarządzaniu zagrożeniami zapobiega wystąpieniu zagrożeń?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy strategia minimalizacji przy zarządzaniu zagrożeniami minimalizuje skutki zagrożeń?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy diagram klas jest diagramem sekwencyjnym?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy diagram klas opisuje powiązania między strukturami?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy na diagramie aktywności można zamodelować udział użytkowników?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podsystem może działać niezależnie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy podsystemy mogą ze sobą współdziałać?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy pojedynczy podsystem może być traktowany jako samodzielny?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy funkcje różnych podsystemów mogą działać wspólnie?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy fasada warstwowo ogranicza dostęp?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy fasada reprezentuje złożony system?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy weryfikacja oznacza zgodność projektu z dokumentacją (specyfikacją)?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy zatwierdzenie oznacza zgodność projektu z oczekiwaniami klienta?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy metoda formalna może być wszędzie stosowana?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "nie"
+    },
+    {
+        "question": "Czy metoda formalna jest oparta na metodach numerycznych?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy Singleton to instancja klasy globalna?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    },
+    {
+        "question": "Czy prototyp jest czasowo lepszy (bez pamięci, bez komplikacji obiektów)?",
+        "answers": ["tak", "nie"],
+        "correctAnswer": "tak"
+    }
+        
+    ];
+
+    // Funkcja do losowego przetasowania tablicy
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Przetasuj pytania
+    shuffleArray(questions);
+
+    // Dodaj pytania do formularza
+    const quizForm = document.getElementById("quizForm");
+    questions.forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question";
+        questionDiv.textContent = q.question;
+
+        q.answers.forEach(answer => {
+            const label = document.createElement("label");
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = `q${index + 1}`;
+            input.value = answer;
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(` ${answer}`));
+            questionDiv.appendChild(label);
+        });
+
+        quizForm.appendChild(questionDiv);
+        quizForm.appendChild(document.createElement("br"));
+        quizForm.appendChild(document.createElement("br"));
+    });
+
+    // Obiekt z poprawnymi odpowiedziami
+    const correctAnswers = {};
+    questions.forEach((q, index) => {
+        correctAnswers[`q${index + 1}`] = q.correctAnswer;
+    });
+
+    function checkAnswers() {
+        let score = 0;
+        let correctCount = 0;
+        let totalQuestions = Object.keys(correctAnswers).length;
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionName = "q" + i;
+            const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+            const labels = document.querySelectorAll(`input[name="${questionName}"]`);
+
+            labels.forEach(label => {
+                label.parentElement.classList.remove("correct", "incorrect");
+            });
+
+            if (selectedAnswer) {
+                if (selectedAnswer.value === correctAnswers[questionName]) {
+                    selectedAnswer.parentElement.classList.add("correct");
+                    score += 1;
+                    correctCount++;
+                } else {
+                    selectedAnswer.parentElement.classList.add("incorrect");
+                    score -= 0.5;
+                }
+            }
+        }
+
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            <p>Poprawne odpowiedzi: ${correctCount} / ${totalQuestions}</p>
+            <p>Twój wynik: ${score} pkt</p>
+            <p>Poprawne odpowiedzi:</p>
+            <ul>
+                ${Object.keys(correctAnswers).map(q => `<li>${q}: ${correctAnswers[q]}</li>`).join("")}
+            </ul>
+        `;
+    }
+
+    // Dodaj przycisk "Sprawdź" po pytaniach
+    const checkButton = document.createElement("button");
+    checkButton.type = "button";
+    checkButton.textContent = "Sprawdź";
+    checkButton.onclick = checkAnswers;
+    quizForm.appendChild(checkButton);
+</script>
+
+</body>
+</html>
