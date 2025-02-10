@@ -6,25 +6,109 @@
     <title>Test z pytaniami</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
         }
-        .question {
+
+        h1 {
+            text-align: center;
             color: #2c3e50;
-            font-weight: bold;
+            margin-top: 20px;
         }
-        .answer {
-            color: #e74c3c;
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+
+        .question label {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .question input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .controls select, .controls button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .controls select {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .controls button {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .controls button:hover {
+            background-color: #27ae60;
+        }
+
         .result {
             margin-top: 20px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .result p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .result ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .result li {
+            background-color: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .correct {
+            color: #27ae60;
             font-weight: bold;
         }
-        .correct {
-            color: green;
-        }
+
         .incorrect {
-            color: red;
+            color: #e74c3c;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -1052,6 +1136,14 @@
         checkButton.type = "button";
         checkButton.textContent = "Sprawdź";
         checkButton.onclick = checkAnswers;
+        checkButton.style.display = "block";
+        checkButton.style.margin = "20px auto";
+        checkButton.style.padding = "10px 20px";
+        checkButton.style.backgroundColor = "#3498db";
+        checkButton.style.color = "white";
+        checkButton.style.border = "none";
+        checkButton.style.borderRadius = "5px";
+        checkButton.style.cursor = "pointer";
         quizForm.appendChild(checkButton);
     }
 
