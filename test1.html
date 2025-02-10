@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test z pytaniami</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .answer {
+            color: #e74c3c;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+        .options {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Test z pytaniami</h1>
+
+<div class="options">
+    <label>
+        <input type="radio" name="questionCount" value="25" checked> 25 pytań
+    </label>
+    <label>
+        <input type="radio" name="questionCount" value="all"> Wszystkie pytania
+    </label>
+    <button onclick="startQuiz()">Rozpocznij test</button>
+</div>
+
+<form id="quizForm" style="display: none;">
+    <!-- Pytania będą dodane dynamicznie przez JavaScript -->
+</form>
+
+<div class="result" id="result"></div>
+
+<script>
+    const allQuestions = [
+        {
+            "question": "Czy minimalizacja strat łagodzi skutki?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy zagrożenia projektowe mogą wpłynąć na projekt?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy testowanie funkcjonalne jest testowaniem czarnej skrzynki?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy podsystem może działać sam?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy funkcje poszczególnych podsystemów mogą ze sobą współdziałać?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy weryfikacja oznacza zgodność projektu z dokumentacją?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy zatwierdzenie oznacza zgodność projektu z oczekiwaniami klienta?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy diagram klas jest diagramem sekwencyjnym?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy diagram klas opisuje powiązania między klasami?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy adapter upraszcza interfejs klasy implementującej?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy dekorator rozszerza funkcjonalność klasy bazowej?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy program formalny jest oparty na wzorcach?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy program formalny można wszędzie stosować?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy pośrednik wirtualny buforuje dane?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy testowanie wstępujące można prowadzić od początku programowania?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy podczas testowania można wykryć więcej niż jeden defekt?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy pośrednik ochraniający sprawdza, czy wywołujący ma pozwolenie na dostęp?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy punkty widzenia dotyczą końcowych użytkowników?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy budowniczy tworzy rodzinę klas?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy prototyp klonuje obiekt?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy metoda wytwórcza służy do rozwiązywania jednej z wielu podobnych klas?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy model repozytorium opiera się na centralnej bazie danych?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy model repozytorium opiera się na serwerach?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy iterator iteruje?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy wzorzec Flyweight (pylek) utylizuje pamięć poprzez stan zewnętrzny?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy wzorzec Flyweight zastępuje bardziej złożony obiekt?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy łańcuch odpowiedzialności redukuje ilość połączeń między obiektami?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy adapter może być zaimplementowany poprzez dziedziczenie po klasie o niezgodnym interfejsie?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy adapter umożliwia przedefiniowanie części klasy adaptowanej?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy iterator może swobodnie poruszać się po obiekcie?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy wzorzec budowniczy jest wzorcem strukturalnym?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy wzorzec fabryki jest wzorcem czynnościowym?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy wzorce konstrukcyjne to Abstract Factory oraz Prototyp?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy wzorce strukturalne to Singleton oraz Proxy?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy wzorzec Flyweight (pylek) utylizuje pamięć poprzez stan zewnętrzny?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy wzorzec Flyweight zastępuje bardziej złożony obiekt?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy łańcuch odpowiedzialności redukuje ilość połączeń między obiektami?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy adapter może być zaimplementowany poprzez dziedziczenie po klasie o niezgodnym interfejsie?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy adapter umożliwia przedefiniowanie części klasy adaptowanej?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "tak"
+        },
+        {
+            "question": "Czy iterator może swobodnie poruszać się po obiekcie?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy wzorzec budowniczy jest wzorcem strukturalnym?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        },
+        {
+            "question": "Czy wzorzec fabryki jest wzorcem czynnościowym?",
+            "answers": ["tak", "nie"],
+            "correctAnswer": "nie"
+        }
+    ];
+
+    // Funkcja do losowego przetasowania tablicy
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Funkcja do rozpoczęcia quizu
+    function startQuiz() {
+        const quizForm = document.getElementById("quizForm");
+        quizForm.innerHTML = ""; // Wyczyść formularz przed dodaniem nowych pytań
+
+        const questionCount = document.querySelector('input[name="questionCount"]:checked').value;
+        let selectedQuestions = [...allQuestions];
+
+        if (questionCount === "25") {
+            shuffleArray(selectedQuestions);
+            selectedQuestions = selectedQuestions.slice(0, 25);
+        }
+
+        // Dodaj pytania do formularza
+        selectedQuestions.forEach((q, index) => {
+            const questionDiv = document.createElement("div");
+            questionDiv.className = "question";
+            questionDiv.textContent = q.question;
+
+            q.answers.forEach(answer => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `q${index + 1}`;
+                input.value = answer;
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(` ${answer}`));
+                questionDiv.appendChild(label);
+            });
+
+            quizForm.appendChild(questionDiv);
+            quizForm.appendChild(document.createElement("br"));
+            quizForm.appendChild(document.createElement("br"));
+        });
+
+        // Pokaż formularz
+        quizForm.style.display = "block";
+
+        // Dodaj przycisk "Sprawdź"
+        const checkButton = document.createElement("button");
+        checkButton.type = "button";
+        checkButton.textContent = "Sprawdź";
+        checkButton.onclick = checkAnswers;
+        quizForm.appendChild(checkButton);
+    }
+
+    // Funkcja do sprawdzania odpowiedzi
+    function checkAnswers() {
+        const quizForm = document.getElementById("quizForm");
+        const selectedQuestions = Array.from(quizForm.querySelectorAll(".question"));
+        let score = 0;
+        let correctCount = 0;
+
+        selectedQuestions.forEach((questionDiv, index) => {
+            const questionName = `q${index + 1}`;
+            const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+            const labels = document.querySelectorAll(`input[name="${questionName}"]`);
+
+            labels.forEach(label => {
+                label.parentElement.classList.remove("correct", "incorrect");
+            });
+
+            if (selectedAnswer) {
+                const correctAnswer = allQuestions.find(q => q.question === questionDiv.textContent).correctAnswer;
+                if (selectedAnswer.value === correctAnswer) {
+                    selectedAnswer.parentElement.classList.add("correct");
+                    score += 1;
+                    correctCount++;
+                } else {
+                    selectedAnswer.parentElement.classList.add("incorrect");
+                    score -= 0.5;
+                }
+            }
+        });
+
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            <p>Poprawne odpowiedzi: ${correctCount} / ${selectedQuestions.length}</p>
+            <p>Twój wynik: ${score} pkt</p>
+            <p>Poprawne odpowiedzi:</p>
+            <ul>
+                ${selectedQuestions.map((q, index) => {
+                    const correctAnswer = allQuestions.find(q2 => q2.question === q.textContent).correctAnswer;
+                    return `<li>Pytanie ${index + 1}: ${correctAnswer}</li>`;
+                }).join("")}
+            </ul>
+        `;
+    }
+</script>
+
+</body>
+</html>
