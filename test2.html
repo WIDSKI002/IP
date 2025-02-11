@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test z pytaniami</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+
+        .question label {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .question input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .controls select, .controls button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .controls select {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .controls button {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .controls button:hover {
+            background-color: #27ae60;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .result p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .result ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .result li {
+            background-color: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .correct {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .incorrect {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test z pytaniami</h1>
+
+    <label for="questionCount">Wybierz liczbę pytań:</label>
+    <select id="questionCount">
+        <option value="25">25 pytań</option>
+        <option value="all">Wszystkie pytania</option>
+    </select>
+    <button onclick="startQuiz()">Rozpocznij test</button>
+    
+    <form id="quizForm">
+        <!-- Pytania będą dodane dynamicznie przez JavaScript -->
+    </form>
+
+<div class="result" id="result"></div>
+
+<script>
+    const pytania = [
+    ["Planowanie projektu - Czy obejmuje sklad i strukture osob tworzacych program?", "tak"],
+    ["Planowanie projektu - Czy obejmuje koszty projektu?", "tak"],
+    ["Czy wzorcem strukturalnym jest kompozyt?", "tak"],
+    ["Czy przy testowaniu programow obiektowych testowanie jednostkowe ogranicza sie do testowania metod klasy?", "nie"],
+    ["Czy przy testowaniu programow obiektowych testowanie jednostkowe obejmuje testy integralnosci?", "tak"],
+    ["Czy diagram przypadkow uzycia jest strukturalny?", "nie"],
+    ["Czy diagram przypadkow uzycia posiada aktorow?", "tak"],
+    ["Czy diagram przypadkow uzycia umozliwia zamodelowanie funkcjonalnosci systemu?", "tak"],
+    ["Czy model maszyny abstrakcyjnej jest modelem warstwowym?", "tak"],
+    ["Czy model maszyny abstrakcyjnej ulatwia przyrostowe tworzenie oprogramowania?", "tak"],
+    ["Czy w lancuchu zobowiazan [Chain of Responsibility] zagwarantowana jest obsluga zapytania przez co najmniej jeden obiekt?", "nie"],
+    ["Czy w lancuchu zobowiazan [Chain of Responsibility] wystepuje wymiana zmodyfikowanych danych pomiedzy obiektami?", "tak"],
+    ["Czy potoki nadaja sie do systemow interaktywnych?", "nie"],
+    ["Czy potoki moga byc stosowane tylko do systemow sekwencyjnych?", "nie"],
+    ["Czy kontrole sa metodami statycznymi V&V?", "tak"],
+    ["Czy automatyczna analiza statyczna zawsze wskazuje dokladne miejsce usterki?", "nie"],
+    ["Czy kontrole pozwalaja wykryc wiele defektow podczas sesji?", "tak"],
+    ["Czy kontrole calkowicie eliminuja koniecznosc przeprowadzenia testow?", "nie"],
+    ["Czy kontrole nie pozwalaja okreslic cech dynamicznych testowanego programu?", "tak"],
+    ["Czy podczas kontroli mozna znalezc wiele bledow?", "tak"],
+    ["Czy punktem widzenia moga byc odbiorcy uslug?", "tak"],
+    ["Czy punktem widzenia moga byc zrodlo lub przeznaczenie danych?", "tak"],
+    ["Czy Abstract Factory zwraca obiekty klas strukturalnie podobne?", "nie"],
+    ["Czy Abstract Factory ukrywa tworzone typy klas przed klientem?", "tak"],
+    ["Czy inzynieria programowania zajmuje sie wylacznie etapem od zakonczenia tworzenia specyfikacji do oddania programu klientowi?", "nie"],
+    ["Czy inzynieria programowania zajmuje sie tylko dostarczeniem programu?", "nie"],
+    ["Czy inzynieria programowania oznacza tylko program wykonywalny?", "nie"],
+    ["Czy inzynieria programowania definiuje oprogramowanie jako kazda postac zapisu programu komputerowego?", "tak"],
+    ["Czy metoda zwinna jest programowaniem ekstremalnym i polega na ciaglym testowaniu?", "tak"],
+    ["Czy model kaskadowy pozwala latwo i malym nakladem pracy wprowadzic do projektu zmiany?", "nie"],
+    ["Czy model kaskadowy jest oparty na doswiadczeniu z innych dziedzin inzynierii?", "tak"],
+    ["Czy diagram klas jest strukturalny?", "tak"],
+    ["Czy diagram klas przedstawia zaleznosci miedzy klasami?", "tak"],
+    ["Czy projektowanie ogolne tworzy sie wstepujaco?", "tak"],
+    ["Czy projektowanie ogolne pozwala przedstawic projektantom zarys systemu?", "tak"],
+    ["Czy projektowanie ogolne dostarcza informacji o ogolnej architekturze systemu?", "nie"],
+    ["Czy siec dzialan pozwala wyznaczyc sciezke krytyczna?", "tak"],
+    ["Czy siec dzialan jest graficznym schematem?", "tak"],
+    ["Czy model interaktywny ma punkt widzenia zewnetrzny?", "tak"],
+    ["Czy model interaktywny jest zwiazany ze zrebem programu?", "nie"],
+    ["Czy testowanie oprogramowania jest czescia V&V?", "tak"],
+    ["Czy weryfikacja jest sprawdzenie, czy produkt spelnia specyfikacje?", "tak"],
+    ["Czy weryfikacja jest sprawdzenie, czy produkt jest budowany zgodnie z ustaleniami klienta?", "nie"],
+    ["Czy posrednik [PROXY] zdalny kolejkuje zadania?", "nie"],
+    ["Czy efektywnosc osiaga sie przez malo gruboziarnistych klas?", "tak"],
+    ["Czy efektywnosc osiaga sie przez duzo drobnoziarnistych klas?", "nie"],
+    ["Czy obserwator przechodzi przez obserwatorow i uaktualnia stan?", "tak"],
+    ["Czy obserwowany dynamicznie dodaje i usuwa obserwatorow?", "tak"],
+    ["Czy wzorzec obserwator wizytuje obserwatorow w celu pobrania aktualnego stanu obiektu obserwowanego?", "nie"],
+    ["Czy w systemach interaktywnych najlepiej stosowac zewnetrzne punkty widzenia?", "tak"],
+    ["Czy systemy interaktywne stanowia naturalny sposob strukturalizacji procesu?", "tak"],
+    ["Czy adapter jest uniwersalny, jezeli metody klasy bazowej sa nieprzesloniete?", "tak"],
+    ["Czy zlozonosc cykliczna jest rowna liczbie sciezek, ile jest instrukcji warunkowych?", "nie"],
+    ["Czy zlozonosc cykliczna moze byc zamodelowana graficznie?", "tak"],
+    ["Czy zlozonosc cykliczna jest rowna liczbie warunkow prostych umieszczonych w testowanym kodzie?", "nie"],
+    ["Czy zlozonosc cykliczna pozwala okreslic liczbe niezaleznych sciezek wykonania?", "tak"],
+    ["Czy etnografia bada wymagania wynikajace z rzeczywistego sposobu pracy osob, a nie ze sposobu zalecanego przez formalne definicje procesow?", "tak"],
+    ["Czy etnografia bada wymagania wynikajace z kooperacji i swiadomosci czynnosci innych osob?", "tak"],
+    ["Czy testowanie wstepujace jest typem testowania integracyjnego?", "tak"],
+    ["Czy testowanie wstepujace umozliwia okreslenie projektu architektonicznego we wczesnej fazie?", "nie"],
+    ["Czy modele ogolne sa budowane metoda wstepujaca i obejmuja zasadnicze charakterystyki rzeczywistych systemow?", "tak"],
+    ["Czy model ogolny dostarcza informacji o ogolnej architekturze systemu?", "nie"],
+    ["Czy plan przedsiewziecia moze obejmowac sklad i strukture zespolu wytwarzajacego oprogramowanie?", "tak"],
+    ["Czy plan przedsiewziecia moze obejmowac sposob opracowania oferty przetargowej?", "nie"],
+    ["Czy narzedzia automatycznej analizy statycznej przeprowadzaja analize przeplywu sterowania w programie?", "tak"],
+    ["Czy narzedzia automatycznej analizy statycznej zawsze wskazuja miejsce usterki w kodzie?", "nie"],
+    ["Czy wzorzec obserwator wizytuje obserwatorow w celu pobrania aktualnego stanu obiektu obserwowanego?", "nie"],
+    ["Czy wzorzec obserwator umozliwia obserwowanemu dynamiczne dolaczanie i odlaczanie obserwatorow?", "tak"],
+    ["Czy wzorzec obserwator weryfikuje obserwatorow?", "nie"],
+    ["Czy dekorator i adapter maja taki sam interfejs jak obiekt tworzony?", "nie"],
+    ["Czy dekorator i adapter sa zlozone?", "nie"],
+    ["Czy dekorator i Proxy maja identyczne interfejsy jak obiekt obudowywany?", "tak"],
+    ["Czy dekorator i Proxy kontroluja obudowywany obiekt?", "nie"],
+    ["Czy dekorator rozszerza funkcje klasy bazowej?", "tak"],
+    ["Czy wzorce Stan/Strategia pozwalaja na przelaczanie w zaleznosci od kontekstu lub autorytatywne przelaczanie?", "tak"],
+    ["Czy strategia i stan umozliwiaja dokonywanie wyboru algorytmu/stanu lub moze on byc determinowany samoczynnie w klasie kontekstu?", "tak"],
+    ["Czy strategia minimalizacji przy zarzadzaniu zagrozeniami zapobiega wystapieniu zagrozen?", "nie"],
+    ["Czy strategia minimalizacji przy zarzadzaniu zagrozeniami minimalizuje skutki zagrozen?", "tak"],
+    ["Czy diagram klas jest diagramem sekwencyjnym?", "nie"],
+    ["Czy diagram klas opisuje powiazania miedzy strukturami?", "tak"],
+    ["Czy na diagramie aktywnosci mozna zamodelowac udzial uzytkownikow?", "nie"],
+    ["Czy podsystem moze dzialac niezaleznie?", "tak"],
+    ["Czy podsystemy moga ze soba wspoldzialac?", "tak"],
+    ["Czy pojedynczy podsystem moze byc traktowany jako samodzielny?", "tak"],
+    ["Czy funkcje roznych podsystemow moga dzialac wspolnie?", "tak"],
+    ["Czy fasada ogranicza dostep warstwowy?", "nie"],
+    ["Czy diagram aktywnosci zawiera aktorow?", "nie"],
+    ["Czy fasada reprezentuje zlozony system?", "tak"],
+    ["Czy weryfikacja sprawdza, czy projekt jest zgodny z dokumentacja [specyfikacja]?", "tak"],
+    ["Czy zatwierdzenie sprawdza, czy projekt jest zgodny z oczekiwaniami klienta?", "tak"],
+    ["Czy metoda formalna moze byc wszedzie stosowana?", "nie"],
+    ["Czy metoda formalna jest oparta na metodach numerycznych?", "tak"],
+    ["Czy singleton ma instancje klasy globalnej?", "tak"],
+    ["Czy prototyp jest czasowo lepszy bez pamieci, bez komplikacji obiektow?", "tak"],
+    ["Czy wzorcem strukturalnym jest prototyp?", "nie"],
+    ["Czy agregacja calkowita oznacza, ze obiekt jest czescia innego obiektu?", "tak"],
+    ["Czy w agregacji calkowitej jeden obiekt moze istniec bez drugiego?", "nie"],
+    ["Czy tworzenie ewolucyjne obejmuje tworzenie badawcze?", "tak"],
+    ["Czy tworzenie ewolucyjne obejmuje tworzenie z porzuceniem?", "tak"],
+    ["Czy singleton pozwala utworzyc tylko jedna instancje?", "tak"],
+    ["Czy singleton jest stosowany, gdy nie wiadomo, jakiego typu obiekty beda potrzebne?", "nie"],
+    ["Czy diagram przypadkow uzycia jest diagramem strukturalnym?", "nie"],
+    ["Czy diagram przypadkow uzycia umozliwia zamodelowanie funkcjonalnosci systemu?", "tak"],
+    ["Czy kontrole pozwalaja wykryc wiele defektow podczas sesji?", "tak"],
+    ["Czy kontrole calkowicie eliminuja koniecznosc przeprowadzenia testow?", "nie"],
+    ["Czy dekorator i Proxy maja identyczne interfejsy jak obiekt obudowywany?", "tak"],
+    ["Czy dekorator i Proxy kontroluja obudowywany obiekt?", "nie"],
+    ["Czy testowanie wstepujace jest typem testowania integracyjnego?", "tak"],
+    ["Czy testowanie wstepujace umozliwia okreslenie projektu architektonicznego we wczesnej fazie?", "nie"],
+    ["Czy obserwator umozliwia dynamiczne dodawanie i usuwanie obserwatorow?", "tak"],
+    ["Czy obserwator umozliwia obserwowanemu aktualizacje stanu obserwatorow?", "nie"],
+    ["Czy do sterowania scentralizowanego nalezy model wywolanie-powrot?", "tak"],
+    ["Czy do sterowania scentralizowanego nalezy model sterowania z przerwaniami?", "nie"],
+    ["Czy system z komponentami gruboziarnistymi jest uzywany, gdy chcemy postawic na szybkosc?", "nie"],
+    ["Czy system z komponentami gruboziarnistymi jest uzywany, gdy chcemy postawic na efektywnosc?", "tak"],
+    ["Czy iterator moze przechodzic po kolekcji obiektow i je modyfikowac?", "tak"],
+    ["Czy dekorator jest wzorcem czynnosciowym?", "nie"],
+    ["Czy testowanie zwykle wykrywa jeden defekt podczas sesji?", "tak"],
+    ["Czy elementy statyczne w diagramie UML oznacza sie przez podkreslenie?", "tak"],
+    ["Czy elementy statyczne w diagramie UML oznacza sie przez pogrubienie?", "nie"],
+    ["Czy wzorcem strukturalnym jest fasada?", "tak"],
+    ["Czy wzorcem strukturalnym jest Proxy?", "tak"],
+    ["Czy wzorcem konstrukcyjnym jest prototyp?", "tak"],
+    ["Czy wzorcem konstrukcyjnym jest cos, co nim nie bylo?", "nie"],
+    ["Czy fasada ukrywa czesc systemu?", "tak"],
+    ["Czy + oznacza private?", "nie"],
+    ["Czy + oznacza public?", "tak"],
+    ["Czy klasy gruboziarniste stosuje sie w efektywnosci?", "tak"],
+    ["Czy klasy gruboziarniste stosuje sie w konserwacji?", "nie"],
+    ["Czy punktem widzenia jest zrodlo lub przeznaczenie danych?", "tak"],
+    ["Czy punktem widzenia jest cos na temat pomiarow?", "nie"],
+    ["Czy include w diagramie przypadkow uzycia oznacza, ze przypadek uzycia wymaga wykorzystania innych elementow?", "tak"],
+    ["Czy include w diagramie przypadkow uzycia oznacza, ze jeden przypadek jest rozbudowanym innym przypadkiem?", "nie"],
+    ["Czy prototyp wymaga glebokiego kopiowania podczas budowania obiektow o zlozonej strukturze?", "tak"],
+    ["Czy iterator formalizuje sposob poruszania sie po dowolnej kolekcji danych?", "tak"],
+    ["Czy prostokat w diagramie sekwencji oznacza petle?", "nie"],
+    ["Czy prostokat w diagramie sekwencji oznacza przeplyw alternatywny?", "nie"],
+    ["Czy w diagramie klas klasy reprezentuja zaleznosci [asocjacje, dziedziczenie] miedzy nimi?", "nie"],
+    ["Czy w diagramie klas klasy reprezentuja byty [abstrakcje]?", "tak"],
+    ["Czy w diagramie sekwencji wystepuja klasy?", "tak"],
+    ["Czy przy testowaniu najlepiej jest, gdy nie ma defektow?", "tak"],
+    ["Czy aktorem moze byc system zewnetrzny?", "tak"],
+    ["Czy w diagramie przypadkow uzycia jeden scenariusz odpowiada jednemu przypadkowi uzycia?", "nie"],
+    ["Czy w diagramie przypadkow uzycia zamalowana kropka z otoczka oznacza zakonczenie?", "nie"],
+    ["Czy w diagramie aktywnosci zamalowana kropka z otoczka oznacza zakonczenie?", "tak"],
+    ["Czy w diagramie stanow zamalowana kropka z otoczka oznacza zakonczenie?", "tak"],
+    ["Czy warunek w diagramie aktywnosci oznacza sie trojkatem?", "nie"],
+    ["Czy warunek w diagramie aktywnosci oznacza sie rombem?", "tak"],
+    ["Czy etnografia moze calkowicie okreslic wszystkie wymagania?", "nie"],
+    ["Czy etnografia moze byc laczona z prototypowaniem?", "tak"],
+    ["Czy inspekcja oprogramowania okresla wydajnosc?", "nie"],
+    ["Czy generalizacja dotyczy aktorow i klas?", "tak"],
+    ["Czy diagram sekwencji obrazuje strukture klas?", "nie"],
+    ["Czy testy funkcjonalne sa testami czarnej skrzynki?", "tak"],
+    ["Czy trzeba znac strukture czarnej skrzynki?", "nie"],
+    ["Czy testy maja niski koszt?", "nie"],
+    ];
+
+    // Funkcja do losowego przetasowania tablicy
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function startQuiz() {
+        const quizForm = document.getElementById("quizForm");
+        const questionCount = document.getElementById("questionCount").value;
+        quizForm.innerHTML = "";
+
+        let selectedQuestions = [...pytania];
+
+        if (questionCount === "25") {
+            selectedQuestions = pytania.sort(() => 0.5 - Math.random()).slice(0, 25);
+        }
+
+        selectedQuestions.forEach((q, index) => {
+            const questionDiv = document.createElement("div");
+            questionDiv.className = "question";
+            questionDiv.textContent = q[0];
+
+            ["tak", "nie"].forEach(answer => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `question${index}`;
+                input.value = answer;
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(answer));
+                questionDiv.appendChild(label);
+            });
+
+            quizForm.appendChild(questionDiv);
+        });
+
+        const checkButton = document.createElement("button");
+        checkButton.type = "button";
+        checkButton.textContent = "Sprawdź";
+        checkButton.onclick = checkAnswers;
+        checkButton.style.display = "block";
+        checkButton.style.margin = "20px auto";
+        checkButton.style.padding = "10px 20px";
+        checkButton.style.backgroundColor = "#3498db";
+        checkButton.style.color = "white";
+        checkButton.style.border = "none";
+        checkButton.style.borderRadius = "5px";
+        checkButton.style.cursor = "pointer";
+        quizForm.appendChild(checkButton);
+
+        const showAnswersButton = document.createElement("button");
+        showAnswersButton.type = "button";
+        showAnswersButton.textContent = "Pokaż pytania i odpowiedzi";
+        showAnswersButton.onclick = () => {
+            const answersDiv = document.createElement("div");
+            answersDiv.innerHTML = `
+                <h3>Wszystkie pytania i odpowiedzi:</h3>
+                <ul>
+                    ${selectedQuestions.map(q => `<li>${q[0]} - ${q[1]}</li>`).join("")}
+                </ul>
+            `;
+            quizForm.appendChild(answersDiv);
+        };
+        showAnswersButton.style.display = "block";
+        showAnswersButton.style.margin = "20px auto";
+        showAnswersButton.style.padding = "10px 20px";
+        showAnswersButton.style.backgroundColor = "#e67e22";
+        showAnswersButton.style.color = "white";
+        showAnswersButton.style.border = "none";
+        showAnswersButton.style.borderRadius = "5px";
+        showAnswersButton.style.cursor = "pointer";
+        quizForm.appendChild(showAnswersButton);
+    }
+
+    function checkAnswers() {
+        const selectedQuestions = document.getElementById("questionCount").value === "25" ? pytania.slice(0, 25) : pytania;
+        let score = 0;
+        let correctCount = 0;
+        let totalQuestions = selectedQuestions.length;
+
+        selectedQuestions.forEach((q, index) => {
+            const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
+            const correctAnswer = q[1]; // Correct answer is the second element of the question array
+
+            if (selectedAnswer) {
+                if (selectedAnswer.value === correctAnswer) {
+                    selectedAnswer.parentElement.classList.add("correct");
+                    score += 1;
+                    correctCount++;
+                } else {
+                    selectedAnswer.parentElement.classList.add("incorrect");
+                    score -= 0.5;
+                }
+            }
+        });
+
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            <p>Poprawne odpowiedzi: ${correctCount} / ${totalQuestions}</p>
+            <p>Twój wynik: ${score} pkt</p>
+            <p>Poprawne odpowiedzi:</p>
+            <ul>
+                ${selectedQuestions.map((q, index) => `<li>Pytanie ${index + 1}: ${q[1]}</li>`).join("")}
+            </ul>
+        `;
+    }
+    </script>
+</body>
+</html>
